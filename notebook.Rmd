@@ -1,51 +1,40 @@
 ---
 title: "Impact of COVID-19 on Mobility in Germany"
 output:
-  html_document: default
   pdf_document: default
+  word_document: default
+  html_document: default
 ---
-![](thd.jpg)
+![](logo.jpg)
 
 As submitted by 
 
-Raphael Duarte
+Raphael Griffo Duarte
+Mahmoud Saad 
 
-Marticulation number: 2211XXXX
+Marticulation number: 22111783 (Raphael)
+                      XXXXXXXX (Mahmoud)
 
 Email: raphael.griffo-duarte@stud.th-deg.de
+       mahmoud.XXXXXXXXXXXXX@thd.th-deg.de
 
 # **1. Introduction**
 
-In 2020, the world faced Covid-19. This was not the first time in history that mankind has faced a global pandemic, but the state of mobility has never been this advanced as it is today. Almost everyone has the option to travel near or far, using a variety of inexpensive methods - even flights are not so expensive these days. The coming of the pandemic took away these options from people, which drastically altered their behavior. The way that people reacted to this pandemic can be interesting for professionals in the marketing field. 
+Explain the dataset**
 
-This analysis is performed for the client, who wants to develop new services or adapt older ones for the sports market. New trends are explored which can be useful for advertising products or services. Even though the pandemic appears to have ended due to the rise in the number of vaccinated people, we still don't have information about other strains of the virus. This analysis may be useful to predict future customer behavior in case of another pandemic. 
-
-The analyzed data is from Apple’s mobility trend reports, which was made public so that scientists could have access to this data
-
-**Exercise** Can you improve the introduction by providing additional information to allow the better understanding of the problem?
+[The Tycho dataset](https://healthdata.gov/dataset/Project-Tycho-Level-2-Data/8ihh-ztee/data)
 
 # **2.1 Problem definition**
 
-This analysis aims to study trends in mobility as they are impacted by Covid-19. This consists of looking at data from several regions in Germany, split up into walking; public transit use; and driving. The data ranges from 13.01.2020 to 01.07.2021. Mobility was taken to be 100% before the pandemic, this is seen as a ground value. Fluctuations around this value are visualized in this analysis. 
-
-**Exercise** Does the problem definition fits the research approach? Is it specific enough? Try to improve it by looking at the following sections and code.
+Explain the problem**
 
 # **3. Objectives**
 
-To derive mobility trends as they depend on: 
-- regions
-- transportation type
-- lockdown periods and restrictions
-
-**Exercise** The objectives of the study are very general and not well described. Please generate a new one and work on it during your assigment. 
+Define objectives
 
 # **4. Methods**
 
-- Methods from descriptive statistics: Descriptive Statistics
-- Statistics for scientific work: Literate Statistical Analysis
-- Advanced-Data visualization techniques: ggplot2
-
-**Exercise** If you feel comfortable, use additional statistical methods as linear regression and correlation analysis. 
+Define methods**
 
 # **5. Analysis Protocol**
 The analysis was divided into subsections. The working steps are introduced below. 
@@ -64,261 +53,43 @@ library(xts)
 
 
 ## **5.1 Data loading and cleanup** 
-Data loading and Cleanup is the first and one of the most important steps of any data analysis. Data cleaning is considered a foundational element of basic data science. During this step, data was loaded into R and the data was processed in order to identify the incomplete, irrelevant, or missing parts of the data and then modifying or deleting them according to the necessity. 
+Explain the data loading and cleanup
 
 **Data loading**
-The full load method was used to load data. The data source was Apple’s mobility trend reports (Source: https://www.apple.com/covid19/mobility). The data covered 63 countries, 530 provinces, and all major cities worldwide in the period January 2020 - July 2021 
+How the data is loaded
 
 ```{r}
-df <- read.csv("applemobilitytrends.csv", header=TRUE, sep = ',')
+df <- read.csv("Data/ProjectTycho_Level2_v1.1.0_0/ProjectTycho_Level2_v1.1.0.csv", header=TRUE, sep = ',')
 ```
 
 **Data cleanup** 
 
-The country of interest is Germany so only columns that contain the relevant data were kept for the further analysis. 
+How the data is cleaned
 ```{r}
-Germany <-df[df$country == "Germany", ]
-```
-
-Irrelevant to the analysis columns were also removed. 
-```{r}
-Germany<-Germany[,-c(1,4,5,6)]
-```
-
-Data was transformed into a long format.
-```{r}
-Germany<-gather(Germany, date, mobility, X2020.01.13:X2020.06.30, factor_key=TRUE)
-```
-
-The "date" column data were converted into date format.
-```{r}
-Germany$date <- sub("\\X", "", Germany$date )
-Germany$date <- as.Date(Germany$date , "%Y.%m.%d")
-```
-
-NA values were removed
-```{r}
-Germany <- na.omit(Germany)
-```
-
-Before going to the next step, the structure of the dataset was checked.
-```{r}
-str(Germany)
-```
-The dataset contains 46056 observations of 4 variables, representing mobility by region, transportation type, and date.  
-
-**Exercise** Take a look into different countries and generate subsets for comparisons 
-
-## **5.2 Overall mobility trend** 
-
-In this section the overall mobility trend in the country of interest was studied. 
-
-The minimum, 1st  quartile, median, mean, 3rd quartile, and the maximum of mobility was checked with the summary function. 
-```{r}
-summary(Germany$mobility)
-```
-
-**Histogram** 
-A histogram gives an idea about the distribution of a quantitative variable
-```{r}
-hist(Germany$mobility,  xlab="Mobility", main = "Mobility trend in Germany", col = "deeppink")
-```
-
-The graph shows asymmetrical distribution. Most data falls to the right of the graphs peak. It is right skewed distributions.  In this case, the mode is the highest point of the histogram, whereas the median and mean fall to the right of it.
-
-**Boxplot** 
-
-A boxplot gives a good overview of the dispersion and the location of the data and shows outliers. 
-```{r}
-boxplot(Germany$mobility, xlab="Moblity" , main = "Mobility trend in Germany", col="darkslategray1")
-```
-
-The plot shows a short box that indicates a small IQR, it means that the middle data has little variability. The data mean is around 100. There is a quite big number of outliers in the above part of the plot but there are no outliers in the below part. 
-
-**Trend graph** 
-A trend graph is used to study the evolution of one or several variables through time. 
-The original data yielded hard-to-interpret visualization. In order to show the trend without the noise of daily fluctuation, the date column was grouped by month, with each value representing the average mobility of that month 
-```{r}
-per_month<-Germany %>% 
-  group_by(month=floor_date(date, "month")) %>%
-  summarize(mobility=mean(mobility))
-```
-
-The graph was plotted with data breaks in one month. The purple line indicates a mobility value that equals 100.
-```{r}
-ggplot(per_month, aes(x=month, y=mobility)) +
-  geom_line(color="darkorange")+
-  scale_x_date(date_breaks = '1 month', date_labels = "%m/%y")+
-  theme(axis.text.x = element_text(angle=45, hjust = 1))+ #adjusting month labels 
-  geom_hline(yintercept=100, color="darkorchid1", size=.5)+ #adding a baisline 
-    ggtitle("Moblity trend in Germany")
-  xlab("")
-```
-The trend graph shows the evolution of mobility through the observed period.
-The purple line is a baseline that shows how mobility changes regarding the first day of observation. 
-Mobility started dropping in February 2020 and reached its minimum in April 2020.  Then it was increasing until September 2020, where it began to decline until January 2021. 
-Starting from January 2021 mobility shows steady growth. July of 2021 is the latest observation month and it has the highest mobility of the studied period. 
-
-The next graph was plotted in order to follow trends by days if it is needed. 
-```{r}
-graph <- xts(x = Germany$mobility, order.by = Germany$date) #creating the xts necessary to use dygraph
-dygraph(graph) %>%
-  dyOptions(labelsUTC = TRUE, fillGraph=FALSE, fillAlpha=0.1, drawGrid = FALSE, colors="#D8AE5A") %>%
-  dyRangeSelector() %>%
-  dyCrosshair(direction = "vertical") %>%
-  dyHighlight(highlightCircleSize = 1, highlightSeriesBackgroundAlpha = 0.2, hideOnMouseOut = FALSE)  %>%
-  dyRoller(rollPeriod = 1)
-```
-**Exercise** Take a closer look at the graph. Does the graph seems correct to you? the lines look awkward. This is because the data contain multiple records for the same date. You need to subset data to solve this. Generate a separate graph for each mobility type containing a line for each region. 
-
-## **5.3 Mobility trend by transportation type** 
-The next section represents mobility in depends on a transportation type. 
-
-**Treemap**
-A treemap displays data as a set of boxes(groups). Each group is represented by a box, which area is proportional to its value. The treemap was chosen as a better alternative to a pie chart to show how mobility is divided among transportation types. 
-A pie chart is also used to show represent a proportion of the whole but even if it might look aesthetically better it is difficult to correctly interpret it as humans are pretty bad at reading angles.
-```{r}
-treemap(Germany, #data frame object
-            index="transportation_type", #categorical variables
-            vSize="mobility", #quantitative variable
-            type="index", #  sets the organization and color scheme
-            title="Moblity trend by transportation type"
-            )
-```
-The treemap shows that mobility is almost equally divided among walking and driving. The Transit group is the smallest one. 
-
-**Exercise** How would you interpret the graph? why the graph is so equally divided? generate a new graph that actually provides the correct information. For this, you will have to subset the data.
-
-**Ridgeline chart**
-A ridgeline chart is used to  visualize the distribution of several numeric variables. 
-```{r}
-ggplot(Germany, aes(x = mobility, y = transportation_type, fill = transportation_type)) +
-  geom_density_ridges() + 
-  theme_ridges() + 
-  theme(legend.position = "none") +
-  ggtitle(" Data distribution by transportation type")+
-  labs(y = "transportation type")
-```
-
-The figure shows the following: 
--	Driving has the tightest distribution
--	Transit has the widest distribution
--	Transit has two peaks while the others just have one peak
--	Driving and walking consistently fall off from their peak
-
-**Exercise** How would you interpret the graph? what does the mobility axis means? how can you improve the graph according to your objectives?
-
-# **5.4 Mobility trends by regions**
-This section studies mobility trends in regions. 
-
-**Grouped boxplot** 
-A grouped boxplot is used to compare the distribution of several groups, in this case, groups are regions of Germany.
-```{r}
-ggplot(Germany, aes(x=region, y=mobility, fill=region)) +
-    geom_boxplot(varwidth = TRUE, alpha=0.2) +
-    theme(legend.position="none", axis.text.x = element_text(angle=45, hjust = 1))+
-   ggtitle(" Data distribution by regions")
-```
-
-The data means of the regions don't dramatically distinguish from each other - around 100. 
-In most of the regions, with the exception of Mecklenburg-Vorpronommer, Saxony, Schleswig-Holstein, data have little variability from the mean.
-Most of the regions have their outliers in the above part of the plot and only Aachen has an outlier in the low one. 
-Berkin, Karlsruhe, Munich,Saxony-Anhalt, Schlesweg-Holstein and Thuringia dont have any outliers. 
-
-**Exercise** How would you interpret the graph? what does the mobility axis means? Do you think the correct colour palette has been used? Modify the graph by sorting the regions. Generate a graph for the lockdown periods and compare with the periods without lockdown.
-
-**Heatmap** 
-A heatmap is used to show the concentration of values between two dimensions of a matrix.
-```{r}
-ggplot(Germany, aes(x=region, date)) + 
-  geom_tile(aes(fill=mobility)) + 
-  scale_fill_continuous(type = "viridis") +
-  theme_gray() +
-  theme(axis.text.x = element_text(angle=45, hjust=1)) + #adjusting region labels
-  scale_y_date(date_breaks = '1 month')+
-   ggtitle(" Mobility concetration")
-```
-
-The heatmap shows the concentration of mobility values between dates and regions. The regions show a similar mobility change within certain date frames, but they still differ in regard to how high mobility values are. 
-
-The basic measures against the pandemic are the same across Germany, but federal states have the autonomy to toughen them. It might be one of the reasons why some of the regions have a denser concentration of low mobility values.
-
-**Exercise** How would you interpret the graph? what does the mobility axis means? Are we looking at the correct data? generate a new dataset that aggregates all the mobility data (transit, walking and driving) into one variable. plot the graph and compare results. Are the results different? why?
-
-**Grouped barchart** 
-Here the grouped bar chart is used to evaluate the proportion of transportation types in mobility by regions.
-```{r}
-ggplot(Germany, aes(fill=transportation_type, y=mobility, x=region)) + 
-    geom_bar(position="fill", stat="identity")+
-  theme(axis.text.x = element_text(angle=45, hjust=1)) + 
-  labs(fill="Transportation type")+ 
-  geom_hline(yintercept=0.61, color="darkorchid1", size=.5)+ #lines  helps to see the proportion of transit among regions
-  geom_hline(yintercept=0.27, color="darkorchid1", size=.5)+ #lines  helps to see the proportion of transit among regions
-   ggtitle(" Transportation type proportion in regions")
-```
-
-The proportion of transportation types looks a little bit different by a deeper look at regions than the treemap of overall mobility shows at the beginning of the analysis.   
-Now it is seen that transit is more popular than it seemed at the first sight. Only a few regions like Berlin and Brandenburg show a relatively low proportion of transit. In other regions, the transit transportation type is quite popular, especially in big cities like Cologne, Hannover, Stuttgart, Mannheim, and also the Saxony state, where public transportation seems to be the preferable way of traveling. 
-Walking and driving seem still to be equally divided. 
-The misleading result regarding transit that is given by the treemap might be due to the lack of transit observation in some regions. 
-
-**Exercise** Some regions have no transit data? what is the effect of transit mobility on overall transit and driving behaviour?
-
-# **5.4 Mobility trends in respect of lockdown restrictions **
-In Germany, the death rate related to coronavirus started to rapidly increase in the middle of March 2020.  By the end of the month, the government made a decision to introduce  Corona-Lockdown restrictions. The measures were supposed to slow down the spreading of the infection by reducing social contact.  By May, restrictions became less and less strict.  The period from the 17th March until the 6th May 2020 is considered as the first lockdown and marked on the trend graph respectively. 
-In December 2020 was introduced a "hard" lockdown. Schools, kindergartens, beauty salons, entertainment centers, and all shops except grocery shops were closed.  From the 3rd of March, states could weaken the restrictions depending on the infection incidence rate.  But in reality, the lockdown started being less strict only by April 2020. The period from the 13th December until the 1st April is considered as the second lockdown and marked on the trend graph respectively. 
-
-```{r}
-lockdown  <- data.frame(date_start= as_date(c("2020-03-17", "2020-12-13")), #for lockdown time frames
-                        date_end = as_date(c("2020-05-06","2021-04-01")))
-
-ggplot()+
-  geom_rect(data = lockdown , aes(xmin = date_start, xmax = date_end, ymin = -Inf, ymax = Inf),
-            fill = "red", alpha= 0.3)+ #lockdown time frames
-  geom_line(data = per_month, aes(x=month, y=mobility, group = 1)) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_x_date(date_breaks = "1 months") + 
-  geom_hline(yintercept=100, color="darkorchid1", size=.5)+ #baseline
-   ggtitle(" Lockdown and mobility")
+# XXXXXXXXXXX
 ```
 
 
-The mobility is the lowest during the first and the second lockdown, which proves the impact of pandemic measures on mobility. However, the mobility in the second lockdown is higher than in the first one.
-Even if the first lockdown shows a dramatic drop in mobility in April 2020, the mobility doesn't stay long on the bottom and starts a sharp increase until July 2020. In opposite, the increase in mobility is less sharp during the second lockdown. 
-The pandemic has an undoubted significant influence on mobility, but people tend to adapt to this situation. As the trend graph shows, very low mobility doesn't last long, which means that people are not ready to give up on moving completely. To offer new services, that could help people to keep their mobility, is a great opportunity for companies from the sports market to win new customers. 
+## **Playground (DELETE LATER)**
+```{r}
+unique(df$loc_type)
 
-**Exercise** This is a very informative graph! How would you asses the impact of lockdown on driving behavior? Is it significantly different to the effect on walking behavior?
+```
+
+
 
 # **6. Result**
-During the analysis the data were processed and studied from the following perspectives: 
 
-- overall mobility trends
-- mobility trends by transportation types 
-- mobile trends in regions 
-- mobility trends depend on pandemic restrictions. 
+Show the results
 
 # **7. Discussion** 
 
-**Contra** 
-1. It is hard to study the impact of the pandemic since we do not have data from before the pandemic for comparison 
-2. The seasons also have impact on mobility; this was not considered in the analysis
-
-**Pro** 
-1. The dataset is large enough to overcome noise and bias as many people use Apple Maps 
-2. With the lockdown restriction timeline data available to us, we can expand this analysis further in order to gain even more insights 
-3. The pandemic situation is unique, therefore having trend insights about it can help researchers, policy-makers, and the general public. 
+Discuss the results
 
 # **8. Conclusion**
 
-This analysis gave several useful insights about mobility trends. Specific to the client's needs for the analysis of mobility as it reflects in the sports market, we can offer certain suggestions on how to use the data: 
-
-1. When mobility is low, it may be a good idea to offer sports equipment for at-home workouts. 
-2. Since driving is also mostly stable over time, the client may focus on radio advertisements of their products during rush hour. 
-3. Walking is quite popular during the pandemic, therefore the client may wish to offer new ranges of sporting clothes and shoes.
-4. Public transportation remains one of the important methods of transport. Advertisements at bus stops and train stations can be especially useful in big cities where transit is one of the preferable transportation types. 
+Conclude the study with a summary of the findings.
  
 # Literature
-COVID-19-Pandemie in Deutschland. https://de.wikipedia.org/wiki/COVID-19-Pandemie_in_Deutschland#Reaktionen_und_Ma%C3%9Fnahmen_der_Politik Accessed 01 July 2021
+Include articles
 
-Wie verlief der erste Lockdown?
-https://www.wiwo.de/politik/deutschland/coronakrise-wie-verlief-der-erste-lockdown/26853384.html Accessed 01 July 2021
