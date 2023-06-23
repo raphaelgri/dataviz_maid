@@ -4,5 +4,8 @@
 .Ruserdata
 .Rhistory
 .RDataTmp
+<<<<<<< HEAD
 play_ground_notebook.Rmd
+=======
+>>>>>>> fa5a51befa47890856a98bc61cc49532337dc317
 Data/
