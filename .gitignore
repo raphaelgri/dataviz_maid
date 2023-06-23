@@ -3,4 +3,6 @@
 .RData
 .Ruserdata
 .Rhistory
+.RDataTmp
+play_ground_notebook.Rmd
 Data/
