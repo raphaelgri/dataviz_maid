@@ -1,5 +1,5 @@
 ---
-title: "Impact of COVID-19 on Mobility in Germany"
+title: "US Disease Analysis"
 output:
   pdf_document: default
   word_document: default
