@@ -144,10 +144,21 @@ ggplot(sub_set_df, aes(x=year, y=total_cases)  ) +
   geom_line() +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
-  geom_vline(xintercept=seq(1880, 2020, 25), color="red", alpha=0.3) +
+  geom_vline(xintercept=seq(1875, 2025, 25), color="red", alpha=0.3) +
   labs(title="Cases of disease by year", x="", y="")
 ```
+***5.3 Historical and Geographical Analysis ***
 
+From the previous view we can see that those diseases only happened in a few moments through history and either were not counted anymore or were eradicated. [Add measles eradication studies here]. The red lines show every 25 years since the start of the chart. The next step is to generate a different map for those periods, to see how different diseases affected each state at each point in time;
+
+-Period 1 1875-1900 *
+-Period 2 1900-1925
+-Period 3 1925-1950
+-Period 4 1950-1957
+-Period 5 1975-2000
+-Period 6 2000-2025 *
+
+* For the lower and upper bound, data is incomplete, but for the sakeness of keeping equal time periods they will be considered.
 
 
 # **6. Result**
