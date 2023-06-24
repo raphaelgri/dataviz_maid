@@ -76,38 +76,6 @@ df$to_date <- ymd(df$to_date)
 ```
 
 
-## **Playground (DELETE LATER)**
-```{r}
-unique(df$country)
-unique(df$loc_type)
-unique(df$state)
-```
-```{r}
-TX_DF = df[df$state == "TX" & df$loc_type == "STATE"  & df$event == "CASES", ]
-
-```
-```{r}
-unique(TX_DF$event)
-```
-```{r}
-results = aggregate(TX_DF$number, by=list(Category=TX_DF$from_date), FUN=sum)
-```
-```{r}
-ggplot(data = results) +
-geom_point(mapping = aes(x = Category, y = x))
-```
-```{r}
-#lets investigate now how diseases affected different states
-CITIES_df = df[df$loc_type == "CITY"  & df$event == "CASES", ]
-```
-
-```{r}
-results_city = aggregate(CITIES_df$number, by=list(Category=CITIES_df$from_date), FUN=sum)
-```
-
-
-
-
 # **6. Result**
 
 Show the results
