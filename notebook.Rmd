@@ -30,11 +30,11 @@ It is essential to recognize the importance of data such as the Tycho dataset, w
 
 # **2.1 Problem definition**
 
-Explain the problem**
+The problem of resource allocation and pandemic preparedness is a multifaceted issue that requires a comprehensive approach. In addition to having the ability to detect when and where pandemics occur, it is crucial to have a well-equipped healthcare system that is tailored to the specific needs of different regions. Given the wide variations in climate, distance, and population density across the United States, it can be challenging to prepare adequately. For example, a region that experiences extreme weather conditions may require different resources compared to a region with a high population density. Similarly, different regions may be dealing with different diseases, making it unwise to have a generalized approach towards healthcare. As such, a targeted approach that takes into account the unique characteristics of each region is necessary. By doing so, we can ensure that resources are allocated appropriately, and our healthcare system is better prepared to handle pandemics in the future.
 
 # **3. Objectives**
 
-Define objectives
+The main objective of this research is to explore the relationship between geography and the prevalence of diseases. By identifying the types of diseases that are prevalent in each region, we can better allocate resources and direct them towards prevention and treatment in areas that require the most attention. This will not only save resources and logistics, but it will also help us to develop tailored strategies that are best suited to the unique challenges faced by each region. Additionally, by investigating the specific environmental factors that contribute to the spread of disease, we can gain a deeper understanding of the ways in which geography interacts with other variables to influence health outcomes. Overall, this research aims to shed light on the complex interplay between geography and disease and to develop more effective approaches to mitigating the impact of these diseases on vulnerable populations.
 
 # **4. Methods**
 
