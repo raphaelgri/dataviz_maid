@@ -151,14 +151,99 @@ ggplot(sub_set_df, aes(x=year, y=total_cases)  ) +
 
 From the previous view we can see that those diseases only happened in a few moments through history and either were not counted anymore or were eradicated. [Add measles eradication studies here]. The red lines show every 25 years since the start of the chart. The next step is to generate a different map for those periods, to see how different diseases affected each state at each point in time;
 
--Period 1 1875-1900 *
--Period 2 1900-1925
--Period 3 1925-1950
--Period 4 1950-1957
--Period 5 1975-2000
--Period 6 2000-2025 *
+-Period 0 1875-1900 *
+-Period 1 1900-1925
+-Period 2 1925-1950
+-Period 3 1950-1957
+-Period 4 1975-2000
+-Period 5 2000-2025 *
 
 * For the lower and upper bound, data is incomplete, but for the sakeness of keeping equal time periods they will be considered.
+
+```{r}
+#first step, get the data for the map
+#select only the city data
+CITIES_df = df[df$loc_type == "CITY"  & df$event == "CASES", ]
+
+#create a period column, starting on 1875, every 25 years is a period
+CITIES_df$period<-(as.numeric(format(CITIES_df$from_date, "%Y"))-1875)%/%25
+
+#sum all cases of the same disease, by period and state
+STATE_df<-CITIES_df %>%
+  group_by(state, disease, period) %>%
+  summarize(total_cases=sum(number))
+
+STATE_df_0 <- STATE_df %>% filter(period == 0)
+STATE_df_1 <- STATE_df %>% filter(period == 1)
+STATE_df_2 <- STATE_df %>% filter(period == 2)
+STATE_df_3 <- STATE_df %>% filter(period == 3)
+STATE_df_4 <- STATE_df %>% filter(period == 4)
+STATE_df_5 <- STATE_df %>% filter(period == 5)
+
+#select the top disease per state in the periods
+
+max_state_0_df <- STATE_df_0 %>%
+  group_by(state) %>%
+  top_n(1, total_cases)
+
+max_state_1_df <- STATE_df_1 %>%
+  group_by(state) %>%
+  top_n(1, total_cases)
+
+max_state_2_df <- STATE_df_2 %>%
+  group_by(state) %>%
+  top_n(1, total_cases)
+
+max_state_3_df <- STATE_df_3 %>%
+  group_by(state) %>%
+  top_n(1, total_cases)
+
+max_state_4_df <- STATE_df_4 %>%
+  group_by(state) %>%
+  top_n(1, total_cases)
+
+max_state_5_df <- STATE_df_5 %>%
+  group_by(state) %>%
+  top_n(1, total_cases)
+
+#now plot each period map the map with the diseases
+plot_usmap(data = max_state_0_df, values = "disease", color = "black") + 
+  scale_colour_discrete(name = "Top disease in state") + 
+  theme(legend.position = "right") + 
+  ggtitle("Top disease by state, period from 1875-1900 *")
+
+#now plot each period map the map with the diseases
+plot_usmap(data = max_state_1_df, values = "disease", color = "black") + 
+  scale_fill_discrete(name = "Top disease in state") + 
+  theme(legend.position = "right") +
+  ggtitle("Top disease by state, period from 1900-1925")
+
+#now plot each period map the map with the diseases
+plot_usmap(data = max_state_2_df, values = "disease", color = "black") + 
+  scale_fill_discrete(name = "Top disease in state") + 
+  theme(legend.position = "right") +
+  ggtitle("Top disease by state, period from 1925-1950")
+
+#now plot each period map the map with the diseases
+plot_usmap(data = max_state_3_df, values = "disease", color = "black") + 
+  scale_fill_discrete(name = "Top disease in state") + 
+  theme(legend.position = "right") + 
+  ggtitle("Top disease by state, period from 1950-1975")
+
+#now plot each period map the map with the diseases
+plot_usmap(data = max_state_4_df, values = "disease", color = "black") + 
+  scale_fill_discrete(name = "Top disease in state") + 
+  theme(legend.position = "right") +
+  ggtitle("Top disease by state, period from 1975-2000")
+  
+
+#now plot each period map the map with the diseases
+plot_usmap(data = max_state_5_df, values = "disease", color = "black") + 
+  scale_fill_discrete(name = "Top disease in state") + 
+  theme(legend.position = "right") +
+  ggtitle("Top disease by state, period from 2000-2025 *")
+```
+From the maps it is possible to observe that the diseases with most cases, more especifically Measles, seem to spread regardless of the region, affecting the whole country.
 
 
 # **6. Result**
