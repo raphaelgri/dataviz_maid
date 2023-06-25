@@ -115,7 +115,35 @@ From the graph we can see that the main diseases in number of cases throughout h
 -Measles
 -Smallpox
 
-The data come from a long history, thus, some errdicated diseases like Measles and Smallpox are still the top diseases in many states. One way of assessing if this information is still useful is checking that for those diseases, how they varied through time.
+Only looking at the cases is not enough though. The dataset also contains death information for the diseases, so the same process is applied to find what are the most deadly diseases throughout history by state.
+
+```{r}
+#first step, get the data for the map
+#select only the city data, and only the deaths
+CITIES_df = df[df$loc_type == "CITY"  & df$event == "DEATHS", ]
+
+#create a temporary df, with the sum of all cases
+max_state_df<-CITIES_df %>%
+  group_by(state, disease) %>%
+  summarize(total_cases=sum(number))
+
+#select the disease with most cases for each state
+
+max_state_df <- max_state_df %>%
+  group_by(state) %>%
+  top_n(1, total_cases)
+
+#now plot the map with the diseases
+plot_usmap(data = max_state_df, values = "disease", color = "black") + 
+  scale_fill_discrete(name = "Top disease by cases (All time)") + 
+  theme(legend.position = "right")
+```
+Looking at both maps, we can see that the disease with most cases is not the most deadly, or is it? When looking at the dataset, we find that the death data for measles, for example, is missing. THe solution for that, is to no use measles data when comparing the information from deaths.
+#Show table with all diseases, cases and deaths
+
+
+
+The data come from a long history, thus, some erradicated diseases like Measles and Smallpox are still the top diseases in many states. One way of assessing if this information is still useful is checking that for those diseases, how they varied through time.
 
 ***5.3 Historical analysis ***
 
@@ -244,6 +272,7 @@ plot_usmap(data = max_state_5_df, values = "disease", color = "black") +
   ggtitle("Top disease by state, period from 2000-2025 *")
 ```
 From the maps it is possible to observe that the diseases with most cases, more specifically Measles, seem to spread regardless of the region, affecting the whole country. And also that the data is not reliable when used for comparison between states, since the data is missing.
+
 
 # **6. Result**
 
