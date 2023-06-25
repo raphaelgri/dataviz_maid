@@ -60,6 +60,7 @@ library(ggmap)
 library(maps)
 library(mapdata)
 library(usmap)
+library(scales)
 ```
 
 
@@ -138,14 +139,15 @@ sub_set_df<- sub_set_df %>%
   summarize(total_cases=sum(total_cases))
 
 #Plot the data
-options(repr.plot.width = 2, repr.plot.height =10)
-ggplot(sub_set_df, aes(x=year, y=total_cases)  ) + 
-  facet_grid(disease ~ ., shrink = FALSE) + 
+options(repr.plot.width = 2, repr.plot.height = 10)
+ggplot(sub_set_df, aes(x = year, y = total_cases)) +
+  facet_grid(disease ~ ., shrink = FALSE) +
   geom_line() +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
-  geom_vline(xintercept=seq(1875, 2025, 25), color="red", alpha=0.3) +
-  labs(title="Cases of disease by year", x="", y="")
+  geom_vline(xintercept = seq(1875, 2025, 25), color = "red", alpha = 0.3) +
+  labs(title = "Cases of disease by year", x = "", y = "") +
+  scale_y_continuous(labels = comma)
 ```
 ***5.3 Historical and Geographical Analysis ***
 
@@ -206,40 +208,49 @@ max_state_5_df <- STATE_df_5 %>%
   group_by(state) %>%
   top_n(1, total_cases)
 
-#now plot each period map the map with the diseases
-plot_usmap(data = max_state_0_df, values = "disease", color = "black") + 
-  scale_colour_discrete(name = "Top disease in state") + 
-  theme(legend.position = "right") + 
+# Define a color palette for the diseases
+# Define a color palette for the diseases
+disease_colors <- c("SMALLPOX" = "blue", "CHLAMYDIA" = "green", "CHICKENPOX [VARICELLA]" = "red", "HEPATITIS A" = 
+                      "purple", "MEASLES" = "orange", "POLIOMYELITIS" = "yellow", "INFLUENZA" = "cyan", "TYPHOID 
+                    FEVER [ENTERIC FEVER]" = "pink", "SCARLET FEVER" = "brown")
+
+# Map diseases to colors in each period
+max_state_0_df$disease_color <- disease_colors[max_state_0_df$disease]
+max_state_1_df$disease_color <- disease_colors[max_state_1_df$disease]
+max_state_2_df$disease_color <- disease_colors[max_state_2_df$disease]
+max_state_3_df$disease_color <- disease_colors[max_state_3_df$disease]
+max_state_4_df$disease_color <- disease_colors[max_state_4_df$disease]
+max_state_5_df$disease_color <- disease_colors[max_state_5_df$disease]
+
+
+# Plot each period map with the diseases using the assigned colors
+plot_usmap(data = max_state_0_df, values = "disease", color = "black") +
+  scale_fill_manual(values = disease_colors, name = "Top disease in state") +
+  theme(legend.position = "right") +
   ggtitle("Top disease by state, period from 1875-1900 *")
 
-#now plot each period map the map with the diseases
-plot_usmap(data = max_state_1_df, values = "disease", color = "black") + 
-  scale_fill_discrete(name = "Top disease in state") + 
+plot_usmap(data = max_state_1_df, values = "disease", color = "black") +
+  scale_fill_manual(values = disease_colors, name = "Top disease in state") +
   theme(legend.position = "right") +
   ggtitle("Top disease by state, period from 1900-1925")
 
-#now plot each period map the map with the diseases
-plot_usmap(data = max_state_2_df, values = "disease", color = "black") + 
-  scale_fill_discrete(name = "Top disease in state") + 
+plot_usmap(data = max_state_2_df, values = "disease", color = "black") +
+  scale_fill_manual(values = disease_colors, name = "Top disease in state") +
   theme(legend.position = "right") +
   ggtitle("Top disease by state, period from 1925-1950")
 
-#now plot each period map the map with the diseases
-plot_usmap(data = max_state_3_df, values = "disease", color = "black") + 
-  scale_fill_discrete(name = "Top disease in state") + 
-  theme(legend.position = "right") + 
+plot_usmap(data = max_state_3_df, values = "disease", color = "black") +
+  scale_fill_manual(values = disease_colors, name = "Top disease in state") +
+  theme(legend.position = "right") +
   ggtitle("Top disease by state, period from 1950-1975")
 
-#now plot each period map the map with the diseases
-plot_usmap(data = max_state_4_df, values = "disease", color = "black") + 
-  scale_fill_discrete(name = "Top disease in state") + 
+plot_usmap(data = max_state_4_df, values = "disease", color = "black") +
+  scale_fill_manual(values = disease_colors, name = "Top disease in state") +
   theme(legend.position = "right") +
   ggtitle("Top disease by state, period from 1975-2000")
-  
 
-#now plot each period map the map with the diseases
-plot_usmap(data = max_state_5_df, values = "disease", color = "black") + 
-  scale_fill_discrete(name = "Top disease in state") + 
+plot_usmap(data = max_state_5_df, values = "disease", color = "black") +
+  scale_fill_manual(values = disease_colors, name = "Top disease in state") +
   theme(legend.position = "right") +
   ggtitle("Top disease by state, period from 2000-2025 *")
 ```
