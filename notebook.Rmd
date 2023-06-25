@@ -243,8 +243,7 @@ plot_usmap(data = max_state_5_df, values = "disease", color = "black") +
   theme(legend.position = "right") +
   ggtitle("Top disease by state, period from 2000-2025 *")
 ```
-From the maps it is possible to observe that the diseases with most cases, more especifically Measles, seem to spread regardless of the region, affecting the whole country.
-
+From the maps it is possible to observe that the diseases with most cases, more specifically Measles, seem to spread regardless of the region, affecting the whole country. And also that the data is not reliable when used for comparison between states, since the data is missing.
 
 # **6. Result**
 
