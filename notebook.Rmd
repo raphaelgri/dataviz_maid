@@ -61,6 +61,7 @@ library(maps)
 library(mapdata)
 library(usmap)
 library(scales)
+library(ggrepel)
 ```
 
 
@@ -283,6 +284,58 @@ plot_usmap(data = max_state_5_df, values = "disease", color = "black") +
   ggtitle("Top disease by state, period from 2000-2025 *")
 ```
 From the maps it is possible to observe that the diseases with most cases, more specifically Measles, seem to spread regardless of the region, affecting the whole country. And also that the data is not reliable when used for comparison between states, since the data is missing.
+
+# ***5.4 Lethality analysis ***
+
+A important aspect to be analized, is the lethality of diseases, since the absolute number of cases and deaths can be misleading due to different population size in each state. Lethality is usually calculated by number of deaths divided by the area population, but the dataset does not contain that information. An alternative is to use the number o deaths divided by the number of cases, as shown next:
+
+```{r}
+#Lethality analysis
+lethality_df <- df
+
+lethality_df <- lethality_df %>%
+  mutate(deaths = ifelse(event == "DEATHS", number, 0),
+         cases = ifelse(event == "CASES", number, 0)) %>%
+  select(-event, -number) 
+
+disease_df <- lethality_df %>%
+  group_by(disease) %>%
+  summarize(total_cases=sum(cases), total_deaths=sum(deaths))
+
+#Select only diseases that have both deaths and cases recorded
+disease_df <- disease_df %>%
+  filter(total_cases > 0, total_deaths > 0, total_cases>= total_deaths)
+
+
+
+ggplot(data = disease_df, aes(x = total_deaths, y = total_cases, col=disease)) +
+geom_point(show.legend= FALSE) +
+  geom_label_repel(aes(label = disease),
+                  box.padding   = 0.35, 
+                  point.padding = 0.5,
+                  segment.color = 'grey50',
+                  show.legend= FALSE) +
+  scale_x_continuous(trans = 'log2') +
+  scale_y_continuous(trans = 'log2')
+```
+The chart shows a correlation between cases and deaths, as expected. The number of deaths should never be higher than the number of cases, as it would make little sense. Both axis show absolute values, so it is a good comparison about the scale of each disease, but not clear enough to know how they compare in terms of lethality.
+
+```{r}
+#Calculate lethality of each disease
+disease_df$lethality <- (disease_df$total_deaths / disease_df$total_cases)
+
+ggplot(data = disease_df, aes(x = disease, y = lethality, fill=disease), vjust = -0.5) +
+geom_bar(stat="identity") +
+  geom_text(data = disease_df, aes(x = disease, y = lethality, label = disease),angle=90, vjust = 0, hjust=0.05) +
+  theme(legend.position = "none",  
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+
+```
+
+
+
 
 
 # **6. Result**
