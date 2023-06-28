@@ -333,7 +333,29 @@ geom_bar(stat="identity") +
 
 
 ```
+Knowing the most lethal diseaseas can help find a direction on what treatments should be prioritized and what diseases should be prevented from spreading at all cost. But going back to the main subject of the geographical effects on disease lethality, the next graph will illustrate how the letality varies in each disease for each state:
 
+```{r}
+#now group lethality by state and disease
+
+state_disease_df <- lethality_df %>%
+  group_by(disease, state) %>%
+  summarize(total_cases=sum(cases), total_deaths=sum(deaths))
+
+#Select only diseases that have both deaths and cases recorded
+state_disease_df <- state_disease_df %>%
+  filter(total_cases > 0, total_deaths > 0, total_cases>= total_deaths)
+
+#calculate lethality
+state_disease_df$lethality <- (state_disease_df$total_deaths / state_disease_df$total_cases)
+
+ggplot(state_disease_df, aes(x=disease, y=lethality, fill=disease)) +
+    geom_boxplot(varwidth = TRUE, alpha=0.2) +
+    theme(legend.position="none", axis.text.x = element_text(angle=45, hjust = 1))+
+   ggtitle(" Data distribution by regions")
+
+```
+The graph shows that there are outliers in lethality, but low and high, for certain diseases: Diphtheria, Influenza, Pellagra, Smallpox and Typhoid Fever.
 
 
 
