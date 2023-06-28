@@ -355,7 +355,58 @@ ggplot(state_disease_df, aes(x=disease, y=lethality, fill=disease)) +
    ggtitle(" Data distribution by regions")
 
 ```
-The graph shows that there are outliers in lethality, but low and high, for certain diseases: Diphtheria, Influenza, Pellagra, Smallpox and Typhoid Fever.
+The graph shows that there are outliers in lethality, but low and high, for certain diseases: Diphtheria, Influenza, Pellagra, Smallpox and Typhoid Fever. For reference, Tuberculosis will also be included, as it is highly lethal but more evenly distributed
+
+```{r}
+#create lethality maps
+
+small_pox_df <- state_disease_df %>%
+  filter(disease == "SMALLPOX")
+
+flu_df <- state_disease_df %>%
+  filter(disease == "INFLUENZA")
+
+diph_df <- state_disease_df %>%
+  filter(disease == "DIPHTHERIA")
+
+pell_df <- state_disease_df %>%
+  filter(disease == "PELLAGRA")
+
+typho_df <- state_disease_df %>%
+  filter(disease == "TYPHOID FEVER [ENTERIC FEVER]")
+
+tub_df <- state_disease_df %>%
+  filter(disease == "TUBERCULOSIS [PHTHISIS PULMONALIS]")
+
+#now plot the map with the diseases
+plot_usmap(data = small_pox_df, values = "lethality", color = "black") + 
+  scale_fill_continuous(name = "Smallpox lethality") + 
+  theme(legend.position = "right")
+
+plot_usmap(data = flu_df, values = "lethality", color = "black") + 
+  scale_fill_continuous(name = "INFLUENZA lethality") + 
+  theme(legend.position = "right")
+
+plot_usmap(data = diph_df, values = "lethality", color = "black") + 
+  scale_fill_continuous(name = "DIPHTHERIA lethality") + 
+  theme(legend.position = "right")
+
+plot_usmap(data = pell_df, values = "lethality", color = "black") + 
+  scale_fill_continuous(name = "PELLAGRA lethality") + 
+  theme(legend.position = "right")
+
+plot_usmap(data = typho_df, values = "lethality", color = "black") + 
+  scale_fill_continuous(name = "TYPHOID FEVER [ENTERIC FEVER] lethality") + 
+  theme(legend.position = "right")
+
+
+plot_usmap(data = tub_df, values = "lethality", color = "black") + 
+  scale_fill_continuous(name = "TUBERCULOSIS [PHTHISIS PULMONALIS] lethality") + 
+  theme(legend.position = "right")
+
+
+```
+The maps show that certain states, mainly in the northeast, are more dangerous for those diseases, all of them being respiratory diseases. A takeaway from thhat data is that perhaps the air pollution in those heavily industrialized areas can generate higher risk of illness and higher chance of death. So resources for respiratory diseases should be prioritized in the states of that region.
 
 
 
