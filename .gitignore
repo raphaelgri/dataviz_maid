@@ -4,6 +4,7 @@
 .Ruserdata
 .Rhistory
 .RDataTmp
+.RDataTmp1
 play_ground_notebook.Rmd
 notebook.html
 Data/
