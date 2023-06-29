@@ -491,7 +491,9 @@ The results analyzed in this work:
 
 # **8. Conclusion**
 
+The results of our data visualization project demonstrate that the state or region plays a crucial role in disease lethality. This highlights the importance of targeted planning and resource allocation in the areas most affected by these diseases, potentially saving lives. Moreover, investigating the root causes of higher disease lethality in specific regions can provide valuable insights for the population, aiding in the development of effective interventions and preventive measures.
 
+Identifying the factors contributing to these regional disparities enables public health authorities and policymakers to implement evidence-based strategies. By addressing socio-economic conditions, healthcare accessibility, environmental factors, and population characteristics, we can tackle the underlying determinants of disease severity. This collaborative approach between researchers, public health institutions, and community stakeholders paves the way for tailored interventions that cater to the unique needs and challenges faced by different regions, ultimately improving health outcomes for the population at large.
  
 # Literature
 Include articles
