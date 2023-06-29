@@ -137,7 +137,7 @@ max_state_df <- max_state_df %>%
 
 #now plot the map with the diseases
 plot_usmap(data = max_state_df, values = "disease", color = "black") + 
-  scale_fill_discrete(name = "Top disease by cases (All time)") + 
+  scale_fill_discrete(name = "Top disease by number of deaths (All time)") + 
   theme(legend.position = "right")
 ```
 Looking at both maps, we can see that the disease with most cases is not the most deadly, or is it? When looking at the dataset, we find that the death data for measles, for example, is missing. THe solution for that, is to no use measles data when comparing the information from deaths.
@@ -178,6 +178,37 @@ ggplot(sub_set_df, aes(x = year, y = total_cases)) +
   labs(title = "Cases of disease by year", x = "", y = "") +
   scale_y_continuous(labels = comma)
 ```
+Similarly, looking at how deaths caused by diseases behaved in time:
+
+```{r}
+#Sum the total number of cases of each disease for each day
+results_deaths_city<- CITIES_DEATH_df %>%
+  group_by(from_date, disease) %>%
+  summarize(total_cases=sum(number))
+
+#create a year column
+results_deaths_city$year<-as.numeric(format(results_deaths_city$from_date, "%Y"))
+
+#select only the diseases that showed in the map
+sub_set_df<-results_deaths_city %>% filter(disease == "PNEUMONIA" | disease == "PNEUMONIA AND INFLUENZA" | disease == "TUBERCULOSIS [PHTHISIS PULMONALIS]")
+
+#aggregate by year and disease
+sub_set_df<- sub_set_df %>%
+  group_by(year, disease) %>%
+  summarize(total_cases=sum(total_cases))
+
+#Plot the data
+options(repr.plot.width = 2, repr.plot.height = 10)
+ggplot(sub_set_df, aes(x = year, y = total_cases)) +
+  facet_grid(disease ~ ., shrink = FALSE) +
+  geom_line() +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  geom_vline(xintercept = seq(1875, 2025, 25), color = "red", alpha = 0.3) +
+  labs(title = "Cases of disease by year", x = "", y = "") +
+  scale_y_continuous(labels = comma)
+```
+
 ***5.3 Historical and Geographical Analysis ***
 
 From the previous view we can see that those diseases only happened in a few moments through history and either were not counted anymore or were eradicated. [Add measles eradication studies here]. The red lines show every 25 years since the start of the chart. The next step is to generate a different map for those periods, to see how different diseases affected each state at each point in time;
