@@ -91,21 +91,21 @@ Since we start from the assumption that geography affects diseases, the first st
 #This will be the first graph: A map, showing all states and the disease with most cases for each state
 #first step, get the data for the map
 #select only the city data
-CITIES_df = df[df$loc_type == "CITY"  & df$event == "CASES", ]
+CITIES_CASES_df = df[df$loc_type == "CITY"  & df$event == "CASES", ]
 
 #create a temporary df, with the sum of all cases
-max_state_df<-CITIES_df %>%
+max_state_cases_df<-CITIES_CASES_df %>%
   group_by(state, disease) %>%
   summarize(total_cases=sum(number))
 
 #select the disease with most cases for each state
 
-max_state_df <- max_state_df %>%
+max_state_cases_df <- max_state_cases_df %>%
   group_by(state) %>%
   top_n(1, total_cases)
 
 #now plot the map with the diseases
-plot_usmap(data = max_state_df, values = "disease", color = "black") + 
+plot_usmap(data = max_state_cases_df, values = "disease", color = "black") + 
   scale_fill_discrete(name = "Top disease by cases (All time)") + 
   theme(legend.position = "right")
 
@@ -122,10 +122,10 @@ Only looking at the cases is not enough though. The dataset also contains death 
 ```{r}
 #first step, get the data for the map
 #select only the city data, and only the deaths
-CITIES_df = df[df$loc_type == "CITY"  & df$event == "DEATHS", ]
+CITIES_DEATH_df = df[df$loc_type == "CITY"  & df$event == "DEATHS", ]
 
 #create a temporary df, with the sum of all cases
-max_state_df<-CITIES_df %>%
+max_state_df<-CITIES_DEATH_df %>%
   group_by(state, disease) %>%
   summarize(total_cases=sum(number))
 
@@ -152,15 +152,15 @@ The data come from a long history, thus, some erradicated diseases like Measles 
 To see how those diseases behaved in history, we can look at the number of cases per year countrywide:
 ```{r}
 #Sum the total number of cases of each disease for each day
-results_city<- CITIES_df %>%
+results_cases_city<- CITIES_CASES_df %>%
   group_by(from_date, disease) %>%
   summarize(total_cases=sum(number))
 
 #create a year column
-results_city$year<-as.numeric(format(results_city$from_date, "%Y"))
+results_cases_city$year<-as.numeric(format(results_cases_city$from_date, "%Y"))
 
 #select only the diseases that showed in the map
-sub_set_df<-results_city %>% filter(disease == "CHICKENPOX [VARICELLA]" | disease == "INFLUENZA" | disease == "MEASLES" | disease == "SMALLPOX")
+sub_set_df<-results_cases_city %>% filter(disease == "CHICKENPOX [VARICELLA]" | disease == "INFLUENZA" | disease == "MEASLES" | disease == "SMALLPOX")
 
 #aggregate by year and disease
 sub_set_df<- sub_set_df %>%
