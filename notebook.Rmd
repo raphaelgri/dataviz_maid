@@ -483,11 +483,15 @@ The results analyzed in this work:
 
 # **7. Discussion** 
 
-Discuss the results
+- Cons: 
+  - The data is not constant, some diseases have cases in certain periods but no data afterwards. Tha is reasonable for eradicated diseases, but even diseases like Influenza are missing.
+  - The data is not present for all states and diseases
+- Pros: The dataset contain multiple diseases and states, making it possible to find useful patterns
+      
 
 # **8. Conclusion**
 
-Conclude the study with a summary of the findings.
+
  
 # Literature
 Include articles
