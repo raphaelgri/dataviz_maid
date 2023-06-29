@@ -172,11 +172,14 @@ options(repr.plot.width = 2, repr.plot.height = 10)
 ggplot(sub_set_df, aes(x = year, y = total_cases)) +
   facet_grid(disease ~ ., shrink = FALSE) +
   geom_line() +
+  facet_wrap( ~disease, ncol=1) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        strip.text = element_text(size = 10, hjust = 0)) +
   geom_vline(xintercept = seq(1875, 2025, 25), color = "red", alpha = 0.3) +
   labs(title = "Cases of disease by year", x = "", y = "") +
-  scale_y_continuous(labels = comma)
+  scale_y_continuous(labels = comma) +
+  guides(fill = guide_legend(ncol = 1, title.position = "top", title.hjust = 0.5)) 
 ```
 Similarly, looking at how deaths caused by diseases behaved in time:
 
@@ -200,10 +203,11 @@ sub_set_df<- sub_set_df %>%
 #Plot the data
 options(repr.plot.width = 2, repr.plot.height = 10)
 ggplot(sub_set_df, aes(x = year, y = total_cases)) +
-  facet_grid(disease ~ ., shrink = FALSE) +
+  facet_grid(disease ~ ., shrink = TRUE ) +
   geom_line() +
+  facet_wrap( ~disease, ncol=1) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),strip.text = element_text(size = 10, hjust = 0)) +
   geom_vline(xintercept = seq(1875, 2025, 25), color = "red", alpha = 0.3) +
   labs(title = "Cases of disease by year", x = "", y = "") +
   scale_y_continuous(labels = comma)
