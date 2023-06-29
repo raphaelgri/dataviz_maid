@@ -208,6 +208,35 @@ ggplot(sub_set_df, aes(x = year, y = total_cases)) +
   labs(title = "Cases of disease by year", x = "", y = "") +
   scale_y_continuous(labels = comma)
 ```
+Since this type of visualization is limited in the number of diseases we can see at the same time, one alternative is viewing through a heat map.
+
+```{r}
+yearly_cases_df <- results_cases_city %>%
+  group_by(year, disease) %>%
+  summarize(total_cases=sum(total_cases))
+
+yearly_deaths_df <- results_deaths_city %>%
+  group_by(year, disease) %>%
+  summarize(total_cases=sum(total_cases))
+
+
+ggplot(yearly_cases_df, aes(x=disease, year)) + 
+  geom_tile(aes(fill=total_cases)) + 
+  scale_fill_continuous(type = "viridis") +
+  theme_gray() +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + #adjusting region labels
+   ggtitle("Cases per year")
+
+
+ggplot(yearly_deaths_df, aes(x=disease, year)) + 
+  geom_tile(aes(fill=total_cases)) + 
+  scale_fill_continuous(type = "viridis") +
+  theme_gray() +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) + #adjusting region labels
+   ggtitle("Cases per year")
+
+```
+
 
 ***5.3 Historical and Geographical Analysis ***
 
