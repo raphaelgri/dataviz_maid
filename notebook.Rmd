@@ -470,14 +470,16 @@ plot_usmap(data = tub_df, values = "lethality", color = "black") +
 
 
 ```
-The maps show that certain states, mainly in the northeast, are more dangerous for those diseases, all of them being respiratory diseases. A takeaway from thhat data is that perhaps the air pollution in those heavily industrialized areas can generate higher risk of illness and higher chance of death. So resources for respiratory diseases should be prioritized in the states of that region.
-
-
+The maps show that certain states, mainly in the northeast, are more dangerous for those diseases, all of them being respiratory diseases. A takeaway from that data is that perhaps the air pollution in those heavily industrialized areas can generate higher risk of illness and higher chance of death. So resources for respiratory diseases should be prioritized in the states of that region.
 
 
 # **6. Result**
 
-Show the results
+The results analyzed in this work:
+- Disease trends over time
+- Disease case map
+- Disease death map
+- Disease lethality
 
 # **7. Discussion** 
 
