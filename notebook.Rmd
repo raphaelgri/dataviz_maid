@@ -386,7 +386,7 @@ disease_df$lethality <- (disease_df$total_deaths / disease_df$total_cases)
 
 ggplot(data = disease_df, aes(x = disease, y = lethality, fill=disease), vjust = -0.5) +
 geom_bar(stat="identity") +
-  geom_text(data = disease_df, aes(x = disease, y = lethality, label = disease),angle=90, vjust = 0, hjust=0.05) +
+  geom_text(data = disease_df, aes(x = disease, y = lethality, label = disease),position =  position_stack(vjust = 0.2), angle=90, vjust = 0, hjust=0.05) +
   theme(legend.position = "none",  
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
