@@ -97,7 +97,7 @@ df$to_date <- ymd(df$to_date)
 
 ## **5.2 Overall disease view**
 
-Since we start from the assumption that geography affects diseases, the first step is to look at the data, seeing what is the disease with most cases for each state.
+Since we start from the assumption that geography affects diseases, the first step is to look at the data, seeing what is the disease with most cases for each state. For that visualization we will use all rows of cases and on city level.
 
 ```{r}
 #This will be the first graph: A map, showing all states and the disease with most cases for each state
@@ -123,13 +123,13 @@ plot_usmap(data = max_state_cases_df, values = "disease", color = "black") +
 
 
 ```
-From the graph we can see that the main diseases in number of cases throughout history are:
--Chickenpox
--Influenza
--Measles
--Smallpox
+From the graph it is possible to state that the main diseases in number of cases throughout history are:\
+- Chickenpox
+- Influenza
+- Measles
+- Smallpox
 
-Only looking at the cases is not enough though. The dataset also contains death information for the diseases, so the same process is applied to find what are the most deadly diseases throughout history by state.
+Only looking at the cases is not enough though. The dataset also contains death information for the diseases, so the same process is applied to find what are the most deadly diseases throughout history by state.\
 
 ```{r}
 #first step, get the data for the map
@@ -152,7 +152,7 @@ plot_usmap(data = max_state_df, values = "disease", color = "black") +
   scale_fill_discrete(name = "Top disease by number of deaths (All time)") + 
   theme(legend.position = "right")
 ```
-Looking at both maps, we can see that the disease with most cases is not the most deadly, or is it? When looking at the dataset, we find that the death data for measles, for example, is missing. THe solution for that, is to no use measles data when comparing the information from deaths.
+The disease with most cases is not the most deadly, or is it? When looking at the dataset, we find that the death data for measles, for example, is missing. The solution for that, is to no use measles data when comparing the information from deaths.
 #Show table with all diseases, cases and deaths
 
 
