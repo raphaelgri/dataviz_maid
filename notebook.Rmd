@@ -32,7 +32,9 @@ The Tycho dataset is a comprehensive database that provides valuable information
 
 The recent COVID-19 pandemic has highlighted the need for better preparedness and response to large-scale pandemics. Despite significant advances in science and medicine, the world still faces challenges in dealing with outbreaks of this magnitude. In particular, the substantial increase in long-distance travel by land, sea, and air has made it easier for diseases to spread rapidly across the globe.
 
-It is essential to recognize the importance of data such as the Tycho dataset, which can provide valuable insights into the patterns and trends of diseases over time. By analyzing this data, we can identify the areas and populations most at risk and develop targeted interventions to prevent and mitigate the spread of diseases. This, in turn, can help us better prepare for future pandemics and ensure a more effective response when they occur.
+It is essential to recognize the importance of data such as the Tycho dataset, which can provide valuable insights into the patterns and trends of diseases over time. By analyzing this data, we can identify the areas and populations most at risk and develop targeted interventions to prevent and mitigate the spread of diseases. This, in turn, can help us better prepare for future pandemics and ensure a more effective response when they occur.  
+
+The objective of this study is to explore the relationship between geography and disease spread and lethality, through State level statistics on cases and deaths provided in Tycho it is possible to find patterns that can help in resource allocation and possibly saving lives through prevention of certain types of disease.
 
 [The Tycho dataset](https://healthdata.gov/dataset/Project-Tycho-Level-2-Data/8ihh-ztee/data)
 
