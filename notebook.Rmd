@@ -518,6 +518,6 @@ The results of our data visualization project demonstrate that the state or regi
 
 Identifying the factors contributing to these regional disparities enables public health authorities and policymakers to implement evidence-based strategies. By addressing socio-economic conditions, healthcare accessibility, environmental factors, and population characteristics, we can tackle the underlying determinants of disease severity. This collaborative approach between researchers, public health institutions, and community stakeholders paves the way for tailored interventions that cater to the unique needs and challenges faced by different regions, ultimately improving health outcomes for the population at large.
  
-# Literature
-Include articles
+# **Literature**
 
+de Quadros CA, Hersh BS, Nogueira AC, Carrasco PA, da Silveira CM. Measles eradication: experience in the Americas. Bull World Health Organ. 1998;76 Suppl 2(Suppl 2):47-52. PMID: 10063674; PMCID: PMC2305693.
