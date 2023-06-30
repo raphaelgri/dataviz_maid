@@ -50,8 +50,9 @@ The main objective of this research is to explore the relationship between geogr
 
 The method consists in analysing and comparing the disease data on state level, to understand if and how diseases affect different states. We assume that there should be a difference, due to climate, so we investigate if states with similar climates will show similar trends in disease. 
 
-- descriptive statistics
-- statistics for scientific work
+- Methods from descriptive statistics: Descriptive Statistics
+- Statistics for scientific work: Literate Statistical Analysis
+- Advanced-Data visualization techniques: ggplot2
 
 # **5. Analysis Protocol**
 The analysis was divided into subsections. The working steps are introduced below. 
