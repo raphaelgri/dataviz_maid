@@ -5,6 +5,7 @@
 .Rhistory
 .RDataTmp
 .RDataTmp1
+.RDataTmp2
 play_ground_notebook.Rmd
 notebook.html
 Data/
