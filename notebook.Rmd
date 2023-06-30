@@ -80,7 +80,7 @@ library(ggrepel)
 Explain the data loading and cleanup
 
 ### **5.1.a Data loading**
-How the data is loaded
+The data is loaded from the level 2 Tycho dataset as a *csv* file into a datafram to be processed further.
 
 ```{r}
 df <- read.csv("Data/ProjectTycho_Level2_v1.1.0_0/ProjectTycho_Level2_v1.1.0.csv", header=TRUE, sep = ',')
@@ -88,7 +88,7 @@ df <- read.csv("Data/ProjectTycho_Level2_v1.1.0_0/ProjectTycho_Level2_v1.1.0.csv
 
 ### **5.1.b Data cleanup** 
 
-How the data is cleaned and prepared
+The only preparation required at this step is converting the date columns into the date type.
 ```{r}
 #Convert date columns to date
 df$from_date <- ymd(df$from_date)
