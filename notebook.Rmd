@@ -28,7 +28,7 @@ Email: raphael.griffo-duarte@stud.th-deg.de\
 
 # **1. Introduction**
 
-The Tycho dataset is a comprehensive database that provides valuable information on disease in the United States at both the state and city level. This dataset spans over a century, from 1887 to 2014, providing a wealth of information on the patterns and trends of diseases across the country.
+The Tycho dataset is a comprehensive database that provides valuable information on disease in the United States at both the state and city level. This dataset spans over a century, from 1887 to 2014, providing a wealth of information on the patterns and trends of diseases across the country.  
 
 The recent COVID-19 pandemic has highlighted the need for better preparedness and response to large-scale pandemics. Despite significant advances in science and medicine, the world still faces challenges in dealing with outbreaks of this magnitude. In particular, the substantial increase in long-distance travel by land, sea, and air has made it easier for diseases to spread rapidly across the globe.
 
@@ -36,7 +36,7 @@ It is essential to recognize the importance of data such as the Tycho dataset, w
 
 [The Tycho dataset](https://healthdata.gov/dataset/Project-Tycho-Level-2-Data/8ihh-ztee/data)
 
-# **2.1 Problem definition**
+# **2. Problem definition**
 
 The problem of resource allocation and pandemic preparedness is a multifaceted issue that requires a comprehensive approach. In addition to having the ability to detect when and where pandemics occur, it is crucial to have a well-equipped healthcare system that is tailored to the specific needs of different regions. Given the wide variations in climate, distance, and population density across the United States, it can be challenging to prepare adequately. For example, a region that experiences extreme weather conditions may require different resources compared to a region with a high population density. Similarly, different regions may be dealing with different diseases, making it unwise to have a generalized approach towards healthcare. As such, a targeted approach that takes into account the unique characteristics of each region is necessary. By doing so, we can ensure that resources are allocated appropriately, and our healthcare system is better prepared to handle pandemics in the future.
 
@@ -76,14 +76,14 @@ library(ggrepel)
 ## **5.1 Data loading and cleanup** 
 Explain the data loading and cleanup
 
-***5.1.a Data loading***
+### **5.1.a Data loading**
 How the data is loaded
 
 ```{r}
 df <- read.csv("Data/ProjectTycho_Level2_v1.1.0_0/ProjectTycho_Level2_v1.1.0.csv", header=TRUE, sep = ',')
 ```
 
-***5.1.b Data cleanup*** 
+### **5.1.b Data cleanup** 
 
 How the data is cleaned and prepared
 ```{r}
@@ -92,7 +92,8 @@ df$from_date <- ymd(df$from_date)
 df$to_date <- ymd(df$to_date)
 ```
 
-**5.2 Overall disease view**
+## **5.2 Overall disease view**
+
 Since we start from the assumption that geography affects diseases, the first step is to look at the data, seeing what is the disease with most cases for each state.
 
 ```{r}
@@ -155,7 +156,7 @@ Looking at both maps, we can see that the disease with most cases is not the mos
 
 The data come from a long history, thus, some erradicated diseases like Measles and Smallpox are still the top diseases in many states. One way of assessing if this information is still useful is checking that for those diseases, how they varied through time.
 
-***5.3 Historical analysis ***
+## **5.3 Historical analysis **
 
 To see how those diseases behaved in history, we can look at the number of cases per year countrywide:
 ```{r}
@@ -250,7 +251,7 @@ ggplot(yearly_deaths_df, aes(x=disease, year)) +
 ```
 
 
-***5.3 Historical and Geographical Analysis ***
+## **5.3 Historical and Geographical Analysis **
 
 From the previous view we can see that those diseases only happened in a few moments through history and either were not counted anymore or were eradicated. [Add measles eradication studies here]. The red lines show every 25 years since the start of the chart. The next step is to generate a different map for those periods, to see how different diseases affected each state at each point in time;
 
@@ -357,7 +358,7 @@ plot_usmap(data = max_state_5_df, values = "disease", color = "black") +
 ```
 From the maps it is possible to observe that the diseases with most cases, more specifically Measles, seem to spread regardless of the region, affecting the whole country. And also that the data is not reliable when used for comparison between states, since the data is missing.
 
-# ***5.4 Lethality analysis ***
+## **5.4 Lethality analysis **
 
 A important aspect to be analized, is the lethality of diseases, since the absolute number of cases and deaths can be misleading due to different population size in each state. Lethality is usually calculated by number of deaths divided by the area population, but the dataset does not contain that information. An alternative is to use the number o deaths divided by the number of cases, as shown next:
 
@@ -483,7 +484,7 @@ The maps show that certain states, mainly in the northeast, are more dangerous f
 
 # **6. Result**
 
-The results analyzed in this work:
+The results analyzed in this work:\
 - Disease trends over time
 - Disease case map
 - Disease death map
@@ -491,10 +492,10 @@ The results analyzed in this work:
 
 # **7. Discussion** 
 
-- Cons: 
+**Cons:** 
   - The data is not constant, some diseases have cases in certain periods but no data afterwards. Tha is reasonable for eradicated diseases, but even diseases like Influenza are missing.
   - The data is not present for all states and diseases
-- Pros: The dataset contain multiple diseases and states, making it possible to find useful patterns
+**Pros:** The dataset contain multiple diseases and states, making it possible to find useful patterns
       
 
 # **8. Conclusion**
