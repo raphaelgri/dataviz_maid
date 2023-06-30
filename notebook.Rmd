@@ -152,9 +152,20 @@ plot_usmap(data = max_state_df, values = "disease", color = "black") +
   scale_fill_discrete(name = "Top disease by number of deaths (All time)") + 
   theme(legend.position = "right")
 ```
-The disease with most cases is not the most deadly, or is it? When looking at the dataset, we find that the death data for measles, for example, is missing. The solution for that, is to no use measles data when comparing the information from deaths.
-#Show table with all diseases, cases and deaths
+The disease with most cases is not the most deadly. From the dataset, the death data for measles, for example, is missing. The solution for that, is to not use measles data when comparing the information from deaths.
 
+```{r}
+#Measles death cases
+measles_death_df <- df %>%
+  filter(disease == "MEASLES") %>%
+  group_by(disease, event) %>%
+  summarize(total=sum(number))
+
+knitr::kable(measles_death_df,
+caption = "Measles case and death sum")
+
+
+```
 
 
 The data come from a long history, thus, some erradicated diseases like Measles and Smallpox are still the top diseases in many states. One way of assessing if this information is still useful is checking that for those diseases, how they varied through time.
