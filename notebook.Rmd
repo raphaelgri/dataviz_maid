@@ -419,7 +419,7 @@ geom_bar(stat="identity") +
 
 
 ```
-Knowing the most lethal diseaseas can help find a direction on what treatments should be prioritized and what diseases should be prevented from spreading at all cost. But going back to the main subject of the geographical effects on disease lethality, the next graph will illustrate how the letality varies in each disease for each state:
+Knowing the most lethal diseases can help find a direction on what treatments should be prioritized and what diseases should be prevented from spreading at all cost. But going back to the main subject of the geographical effects on disease lethality, the next graph will illustrate how the letality varies in each disease for each state:
 
 ```{r}
 #now group lethality by state and disease
